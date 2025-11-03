@@ -28,8 +28,7 @@ mongoose
   - In production, both frontend and backend share the same domain.
 */
 const allowedOrigins = [
-  "http://localhost:3000", // local dev
-  "http://localhost:5000",
+  "http://localhost:3000",
   "https://kialumni.onrender.com"
  // your netlify (optional if frontend not hosted separately)
 ];
