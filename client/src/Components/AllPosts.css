@@ -1,0 +1,263 @@
+/* 🌟 Overall Container */
+.all-post-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 50px;
+  padding-bottom: 30px;
+  margin-top: 30px;
+  background: #fafafa;
+  height: 700px;
+  overflow: scroll;
+  width: 100%;
+  overflow: scroll;
+  border-radius: 6px;
+  margin: 0;
+}
+
+/*  Posts Container */
+.posts-container {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  /* gap: 15px; */
+  /* overflow: scroll; */
+}
+
+/* 🌟 Each Post Card */
+.post-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid #e0e0e0;
+}
+
+.post-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* 🌟 Header */
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.post-profile-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #1877f2;
+  transition: transform 0.2s ease;
+}
+
+.post-profile-img:hover {
+  transform: scale(1.05);
+}
+
+.post-header h4 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.post-header small {
+  display: block;
+  color: #999;
+  font-size: 0.8rem;
+}
+
+/* 🌟 Content */
+.post-content {
+  padding: 12px 16px;
+  cursor: pointer;
+}
+
+.post-content h3 {
+  margin-bottom: 6px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.post-content p {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.post-content img.post-img {
+  width: 100%;
+  max-height: 450px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-top: 10px;
+  transition: transform 0.3s ease;
+}
+
+.post-content img.post-img:hover {
+  transform: scale(1.02);
+}
+
+/* 🌟 Post Details */
+.post-details {
+  padding: 0 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.hashtags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.hashtag {
+  background: #e7f3ff;
+  color: #1877f2;
+  font-weight: 500;
+  border-radius: 12px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  transition: background 0.2s;
+}
+
+.hashtag:hover {
+  background: #d6e8ff;
+}
+
+/* 🌟 Actions */
+.post-actions {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.post-actions button {
+  flex: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: #555;
+  font-size: 0.9rem;
+  padding: 10px 0;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.post-actions button:hover {
+  color: #1877f2;
+  background: rgba(24, 119, 242, 0.08);
+}
+
+/* 🌟 Comment Box */
+.comment-box {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px 16px;
+  border-top: 1px solid #eee;
+}
+
+.comment-box input {
+  flex: 1;
+  border: 1px solid #ddd;
+  padding: 10px 14px;
+  border-radius: 20px;
+  outline: none;
+  font-size: 0.9rem;
+  background: #f9f9f9;
+}
+
+.comment-box input:focus {
+  border-color: #1877f2;
+  background: #fff;
+}
+
+.comment-box button {
+  margin-left: 10px;
+  padding: 8px 16px;
+  background: #1877f2;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.comment-box button:hover {
+  background: #145dbf;
+}
+
+/* 🌟 Responsive Design */
+@media (max-width: 768px) {
+  .posts-container {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  .post-card {
+    border-radius: 12px;
+  }
+
+  .post-header h4 {
+    font-size: 0.95rem;
+  }
+
+  .post-header small {
+    font-size: 0.75rem;
+  }
+
+  .post-content h3 {
+    font-size: 1rem;
+  }
+
+  .post-content p {
+    font-size: 0.9rem;
+  }
+  .post-actions{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .post-actions button{
+    width: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .post-header {
+    padding: 10px;
+  }
+
+  .post-profile-img {
+    width: 42px;
+    height: 42px;
+  }
+
+  .post-content {
+    padding: 10px;
+  }
+  .post-actions{
+    display: flex;
+    flex-direction: row;
+  }
+
+  .post-actions button {
+    font-size: 0.8rem;
+  }
+}

@@ -1,0 +1,91 @@
+/* 🌍 Reset */
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} */
+
+/* 🌟 Home Wrapper */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  background: #e9edf3;
+  font-family: "Poppins", sans-serif;
+}
+
+/* 🌟 Main Layout */
+.main-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 25px;
+  padding: 20px 40px;
+  flex: 1;
+}
+
+/* 🌟 Left Section (Posts) */
+.left-section {
+  flex: 2.3;
+  min-width: 60%;
+  background: transparent;
+  margin-top: 10px;
+}
+
+/* 🌟 Right Section (UserDetails + Feedback) */
+.right-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  align-items: stretch;
+  background: transparent;
+  margin-top: 10px;
+}
+
+/* 🌟 Feedback Form Container */
+.right-section .feedback-container {
+  margin-top: 10px;
+}
+
+/* 🌟 Responsive Design */
+@media (max-width: 1024px) {
+  .main-content {
+    padding: 15px 25px;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 992px) {
+  .main-content {
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+  }
+
+  .left-section,
+  .right-section {
+    width: 100%;
+  }
+
+  .right-section {
+    align-items: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-content {
+    padding: 10px;
+  }
+
+  .left-section,
+  .right-section {
+    width: 100%;
+  }
+
+  .right-section {
+    gap: 20px;
+  }
+}

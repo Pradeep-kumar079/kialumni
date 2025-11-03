@@ -1,0 +1,103 @@
+/* * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f0f4f8;
+  min-height: 100vh;
+} */
+
+/* Wrapper ensures spacing below navbar */
+.addpost-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 100px; 
+}
+
+/* Main container */
+ .addpost-container {
+  width: 90%;
+  max-width: 550px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 35px 30px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.addpost-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.addpost-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+} 
+
+/* Form layout */
+ .post-content label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+.post-content input,
+.post-content textarea {
+  width: 100%;
+  padding: 12px 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+  resize: none;
+}
+
+.post-content input:focus,
+.post-content textarea:focus {
+  border-color: #4a90e2;
+  background-color: #f8fbff;
+} 
+
+/* File input look */
+.post-content input[type="file"] {
+  border: none;
+  padding: 0;
+  margin-bottom: 15px;
+} 
+
+/* Button style */
+ .post-content button {
+  width: 100%;
+  padding: 12px;
+  background: #4a90e2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.post-content button:hover {
+  background: #357ac8;
+} 
+
+/* Responsive */
+ @media (max-width: 600px) {
+  .addpost-container {
+    padding: 25px 20px;
+  }
+
+  .addpost-container h2 {
+    font-size: 20px;
+  }
+} 

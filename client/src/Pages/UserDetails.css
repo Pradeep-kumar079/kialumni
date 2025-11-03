@@ -1,0 +1,231 @@
+/* 🌐 Global Layout */
+.userdetails-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  padding: 24px;
+  /* flex-wrap: wrap; */
+  background-color: #fafafa;
+  box-sizing: border-box;
+}
+
+/* 👤 User Profile Card */
+.user-card {
+  flex: 1;
+  /* min-width: 280px;
+  max-width: 350px; */
+  width: 100%;
+  background: linear-gradient(145deg, #ffffff, #f2f2f2);
+  border-radius: 18px;
+  /* padding: 24px; */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.user-card:hover {
+  transform: translateY(-4px);
+}
+
+.user-img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 12px;
+  border: 3px solid #4caf50;
+}
+
+.user-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #222;
+  margin: 6px 0;
+}
+
+.user-email,
+.user-usn,
+.user-role {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 4px 0;
+  word-break: break-word;
+}
+
+/* 🔗 Connections Section */
+.connections-section {
+  flex: 2;
+  background: #ffffff;
+  width: 100%;
+  padding: 4px;
+  border-radius: 18px;
+  /* padding: 24px; */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  min-width: 300px;
+}
+
+.connections-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+/* 🧩 Connection Grid */
+.connections-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 18px;
+}
+
+/* 💬 Connection Card */
+.connection-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fdfdfd;
+  border-radius: 14px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid #eee;
+}
+
+.connection-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  border-color: #ddd;
+}
+
+/* 🟢 Avatar & Status */
+.connection-avatar {
+  position: relative;
+}
+
+.connection-img {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.status-dot {
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+.status-dot.online {
+  background-color: #4caf50;
+}
+
+.status-dot.offline {
+  background-color: #bbb;
+}
+
+/* 🧠 Connection Info */
+.connection-info h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #222;
+}
+
+.connection-info p {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* 🕓 Loading & Empty States */
+.loading,
+.no-user,
+.no-connections {
+  text-align: center;
+  font-size: 1rem;
+  color: #777;
+  padding: 20px;
+}
+
+/* 📱 Responsive Tweaks */
+
+/* Medium Screens */
+@media (max-width: 1024px) {
+  .userdetails-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .user-card,
+  .connections-section {
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .connections-cards {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+  .user-card {
+    padding: 20px;
+  }
+
+  .connections-cards {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+  .connection-img {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 480px) {
+  .userdetails-container {
+    padding: 14px;
+  }
+
+  .user-card {
+    padding: 16px;
+  }
+
+  .connections-section {
+    padding: 16px;
+  }
+
+  .connections-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .connection-card {
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+  }
+
+  .connection-avatar {
+    margin-bottom: 8px;
+  }
+
+  .user-img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .user-name {
+    font-size: 1.2rem;
+  }
+}

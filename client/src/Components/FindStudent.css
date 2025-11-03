@@ -1,0 +1,201 @@
+/* ===== CONTAINER ===== */
+.batch-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: "Poppins", sans-serif;
+  color: #222;
+}
+.batch-container img{
+  height: 80px;
+  width: 80px;
+}
+
+.batch-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+  color: #1e40af;
+}
+
+.branch-group {
+  margin-bottom: 40px;
+}
+
+.branch-group h3 {
+  color: #2563eb;
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  border-left: 4px solid #2563eb;
+  padding-left: 10px;
+}
+
+/* ===== TABLE WRAPPER ===== */
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: #fff;
+}
+
+/* ===== TABLE ===== */
+.student-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.student-table th,
+.student-table td {
+  padding: 14px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+  height: 50px;
+}
+
+.student-table th {
+  background-color: #f3f4f6;
+  font-weight: 600;
+  color: #374151;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  height: 100px;
+}
+/* Hover effect for rows */
+.student-table tr:hover {
+  background-color: #f9fafb;
+}
+
+/* Profile image */
+.profile-img {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e2e8f0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 6px rgba(37, 99, 235, 0.4);
+}
+
+/* ===== BUTTONS ===== */
+.student-table button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #2563eb;
+  color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.student-table button:hover {
+  background-color: #1e40af;
+}
+
+/* Disconnect button */
+.disconnect-btn {
+  background-color: #dc2626 !important;
+  margin-left: 8px;
+}
+
+.disconnect-btn:hover {
+  background-color: #b91c1c !important;
+}
+
+/* Status column colors */
+.student-table td:last-child {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.student-table td:last-child:has(span.connected) {
+  color: #16a34a;
+}
+
+.student-table td:last-child:has(span.pending) {
+  color: #ea580c;
+}
+
+.student-table td:last-child:has(span.failed) {
+  color: #dc2626;
+}
+
+/* ===== SCROLLBAR STYLE ===== */
+.table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet view */
+@media (max-width: 992px) {
+  .batch-container {
+    padding: 15px;
+  }
+
+  .student-table th,
+  .student-table td {
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+
+  .profile-img {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+/* Mobile view (stacked card layout) */
+@media (max-width: 768px) {
+  .batch-container{
+    font-size: 0.7rem;
+  }
+  .table-wrapper {
+    overflow-x: scroll;
+  }
+
+  .student-table {
+    min-width: 650px;
+  }
+
+  .batch-container h2 {
+    font-size: 1.4rem;
+  }
+}
+
+/* Very small screens (cards layout alternative) */
+@media (max-width: 480px) {
+  .batch-container {
+    padding: 10px;
+  }
+
+  .student-table th,
+  .student-table td {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+
+  .profile-img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .student-table button {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+}

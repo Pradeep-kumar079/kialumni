@@ -1,0 +1,46 @@
+.accept-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f6fa;
+  font-family: "Poppins", sans-serif;
+}
+
+.accept-card {
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 90%;
+  max-width: 420px;
+}
+
+.accept-card.success h2 {
+  color: #2ecc71;
+}
+
+.accept-card.error h2 {
+  color: #e74c3c;
+}
+
+.loading {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.back-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  background: #3498db;
+  color: white;
+  text-decoration: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+.back-btn:hover {
+  background: #2980b9;
+}
