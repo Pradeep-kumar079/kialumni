@@ -37,17 +37,17 @@ const sendOtpController = async (req, res) => {
     );
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      service: "smtp-relay.brevo.com",
       auth: {
-        user:  "pradeepk9348@gmail.com",
-        pass: "kycjndaberbichuz",
+        user:  process.env.EMAIL_USER || "pradeepk9348@gmail.com",
+        pass: process.env.EMAIL_PASS || "kycjndaberbichuz",
       },
     });
-    console.log("Using email:", "loaded");
-    console.log("Using password:", "loaded");
+    console.log("Using email:", process.env.EMAIL_USER ? "loaded" : "not loaded");
+    console.log("Using password:", process.env.EMAIL_PASS ? "loaded" : "not loaded");
 
     await transporter.sendMail({
-      from: `"KIT Alumni" <${"pradeepk9348@gmail.com"}>`,
+      from: `"KIT Alumni" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Your OTP for KIT Alumni Registration",
       text: `Your OTP is ${otp}. It will expire in 10 minutes.`,
@@ -56,15 +56,12 @@ const sendOtpController = async (req, res) => {
     console.log("✅ OTP sent successfully to:", email);
     res.json({ success: true, message: "OTP sent successfully" });
   } catch (error) {
-  console.error("❌ OTP Error (Full):", error);
-  console.error("❌ OTP Error Message:", error.message);
-  res.status(500).json({
-    success: false,
-    message: "Failed to send OTP. Please try again.",
-    error: error.message, // 👈 temporarily include this to debug on production
-  });
-}
-
+    console.error("❌ OTP Error:", error);
+      console.error("❌ OTP sending failed:", error.message || error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to send OTP. Please try again." });
+  }
 };
 
 
