@@ -39,15 +39,15 @@ const sendOtpController = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user:  "pradeepk9348@gmail.com",
+        pass: "kycjndaberbichuz",
       },
     });
-    console.log("Using email:", process.env.EMAIL_USER ? "loaded" : "not loaded");
-    console.log("Using password:", process.env.EMAIL_PASS ? "loaded" : "not loaded");
+    console.log("Using email:", "loaded");
+    console.log("Using password:", "loaded");
 
     await transporter.sendMail({
-      from: `"KIT Alumni" <${process.env.EMAIL_USER}>`,
+      from: `"KIT Alumni" <${"pradeepk9348@gmail.com"}>`,
       to: email,
       subject: "Your OTP for KIT Alumni Registration",
       text: `Your OTP is ${otp}. It will expire in 10 minutes.`,
