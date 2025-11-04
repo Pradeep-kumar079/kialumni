@@ -43,6 +43,8 @@ const sendOtpController = async (req, res) => {
         pass: process.env.EMAIL_PASS,
       },
     });
+    console.log("Using email:", process.env.EMAIL_USER);
+    console.log("Using password:", process.env.EMAIL_PASS);
 
     await transporter.sendMail({
       from: `"KIT Alumni" <${process.env.EMAIL_USER}>`,
