@@ -56,12 +56,15 @@ const sendOtpController = async (req, res) => {
     console.log("✅ OTP sent successfully to:", email);
     res.json({ success: true, message: "OTP sent successfully" });
   } catch (error) {
-    console.error("❌ OTP Error:", error);
-      console.error("❌ OTP sending failed:", error.message || error);
-    res
-      .status(500)
-      .json({ success: false, message: "Failed to send OTP. Please try again." });
-  }
+  console.error("❌ OTP Error (Full):", error);
+  console.error("❌ OTP Error Message:", error.message);
+  res.status(500).json({
+    success: false,
+    message: "Failed to send OTP. Please try again.",
+    error: error.message, // 👈 temporarily include this to debug on production
+  });
+}
+
 };
 
 
