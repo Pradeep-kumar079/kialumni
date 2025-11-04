@@ -43,8 +43,8 @@ const sendOtpController = async (req, res) => {
         pass: process.env.EMAIL_PASS,
       },
     });
-    console.log("Using email:", process.env.EMAIL_USER);
-    console.log("Using password:", process.env.EMAIL_PASS);
+    console.log("Using email:", process.env.EMAIL_USER ? "loaded" : "not loaded");
+    console.log("Using password:", process.env.EMAIL_PASS ? "loaded" : "not loaded");
 
     await transporter.sendMail({
       from: `"KIT Alumni" <${process.env.EMAIL_USER}>`,
@@ -57,6 +57,7 @@ const sendOtpController = async (req, res) => {
     res.json({ success: true, message: "OTP sent successfully" });
   } catch (error) {
     console.error("❌ OTP Error:", error);
+      console.error("❌ OTP sending failed:", error.message || error);
     res
       .status(500)
       .json({ success: false, message: "Failed to send OTP. Please try again." });
