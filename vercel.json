@@ -14,5 +14,6 @@
   "routes": [
     { "src": "/api/(.*)", "dest": "/server.js" },
     { "src": "/(.*)", "dest": "client/build/$1" }
-  ]
+  ],
+  "outputDirectory": "client/build"
 }
