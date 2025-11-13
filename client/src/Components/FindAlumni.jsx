@@ -67,20 +67,45 @@ const FindAlumni = () => {
     fetchAlumni();
   }, [batchYear]);
 
-  const handleRequest = async (to) => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.post(
-        `${API_BASE}/api/alumni/send-request`,
-        { to },
-        { headers: { Authorization: `Bearer ${token}` } }
+ const handleRequest = async (to) => {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await axios.post(
+      `${API_BASE}/api/alumni/send-request`, // or /api/student/send-request
+      { to },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    alert(res.data.message); // success message
+
+  } catch (err) {
+    const msg = err.response?.data?.message || "Failed to send request";
+
+    if (msg === "Request already sent") {
+      // Ask user if they want to resend
+      const resend = window.confirm(
+        "You have already sent a request. Do you want to resend it?"
       );
-      alert("✅ Connection request sent!");
-    } catch (err) {
-      console.error("❌ Request error:", err.response?.data || err);
-      alert("Failed to send connection request.");
+
+      if (resend) {
+        try {
+          // Resend request: delete old pending request first
+          await axios.post(
+            `${API_BASE}/api/alumni/resend-request`, // we’ll create this endpoint
+            { to },
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          alert("✅ Request resent successfully!");
+        } catch (resendErr) {
+          alert(resendErr.response?.data?.message || "Failed to resend request");
+        }
+      }
+    } else {
+      alert(msg);
     }
-  };
+  }
+};
+
 
   const handleDisconnect = async (userId) => {
     try {

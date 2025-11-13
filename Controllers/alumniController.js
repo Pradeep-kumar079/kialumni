@@ -39,8 +39,10 @@ exports.sendRequestController = async (req, res) => {
 
     // ✅ Setup mailer (Gmail)
     const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
+ host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+            auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
@@ -175,3 +177,48 @@ exports.GetAlumniBatchController = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+exports.resendRequestController = async (req, res) => {
+  try {
+    const { to } = req.body;
+    const from = req.user._id;
+
+    // 🔹 Delete existing pending request if exists
+    await RequestModel.deleteMany({ from, to, status: "pending" });
+
+    // 🔹 Create new request
+    const token = crypto.randomBytes(20).toString("hex");
+    const newRequest = new RequestModel({ from, to, token, status: "pending" });
+    await newRequest.save();
+
+    const receiver = await UserModel.findById(to);
+    const sender = await UserModel.findById(from);
+
+    // 🔹 Send email again
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+    });
+
+    const acceptLink = `${BASE_URL}/api/alumni/accept-request/${token}`;
+    const rejectLink = `${BASE_URL}/api/alumni/reject-request/${token}`;
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: receiver.email,
+      subject: "Resent Connection Request",
+      html: `<h2>New Connection Request</h2>
+             <p><strong>${sender.username}</strong> wants to connect with you.</p>
+             <a href="${acceptLink}" style="padding:10px;background:#4CAF50;color:#fff;text-decoration:none;margin-right:10px;">Accept</a>
+             <a href="${rejectLink}" style="padding:10px;background:#f44336;color:#fff;text-decoration:none;">Reject</a>`
+    });
+
+    res.json({ success: true, message: "Request resent successfully!" });
+  } catch (error) {
+    console.error("❌ Resend Request Error:", error);
+    res.status(500).json({ success: false, message: "Failed to resend request" });
+  }
+};
+

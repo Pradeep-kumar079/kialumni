@@ -6,6 +6,7 @@ const {
   rejectRequestController,
   GetStudentBatchController,
   disconnectController,
+  resendRequestController,
 } = require("../Controllers/studentController");
 const authMiddleware = require("../middleware/authMiddleware");
 
@@ -14,5 +15,6 @@ router.post("/send-request", authMiddleware, sendRequestController);
 router.get("/accept-request/:token", acceptRequestController);
 router.get("/reject-request/:token", rejectRequestController);
 router.post("/disconnect", authMiddleware, disconnectController);
+router.post("/resend-request", authMiddleware, resendRequestController);
 
 module.exports = router;
