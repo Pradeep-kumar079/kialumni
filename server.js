@@ -25,7 +25,7 @@ mongoose
 
 // ✅ CORS setup
 const allowedOrigins = [
-  "https://kialumni.vercel.app" // <-- change this after deploying
+  "https://kialumni.vercel.app" // <-- your deployed frontend
 ];
 app.use(
   cors({
@@ -142,9 +142,11 @@ io.on("connection", (socket) => {
   });
 });
 
-// ✅ Start server (local)
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+// ✅ Local vs Vercel handling
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 5000;
+  server.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+}
 
-// ✅ Export app for Vercel
-module.exports = app;
+// ✅ Export server for Vercel
+module.exports = server;
