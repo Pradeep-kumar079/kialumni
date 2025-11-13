@@ -60,8 +60,13 @@ app.get("/api", (req, res) => {
 
 // ✅ Serve React frontend
 app.use(express.static(path.join(__dirname, "client/build")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/build", "index.html"));
+// Serve React frontend for all GET requests not starting with /api
+app.use((req, res, next) => {
+  if (req.method === "GET" && !req.path.startsWith("/api")) {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  } else {
+    next();
+  }
 });
 
 // ✅ Socket.io setup
