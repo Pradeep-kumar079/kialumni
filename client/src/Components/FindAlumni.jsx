@@ -109,8 +109,9 @@ const FindAlumni = () => {
 
   const handleDisconnect = async (userId) => {
     try {
-      const token = localStorage.getItem("token");
-      await axios.post(
+    const token = localStorage.getItem("token"); // ✅ declare here
+    if (!token) return alert("Please login first");
+    await axios.post(
         `${API_BASE}/api/alumni/disconnect`,
         { userId },
         { headers: { Authorization: `Bearer ${token}` } }

@@ -78,7 +78,8 @@ const FindStudent = () => {
 
   const handleDisconnect = async (targetUserId) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token"); // ✅ declare here
+      if (!token) return alert("Please login first");
       const res = await axios.post(
         `${API_BASE}/api/student/disconnect`,
         { targetUserId },
