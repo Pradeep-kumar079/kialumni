@@ -9,21 +9,24 @@ const FindStudent = () => {
   const [loading, setLoading] = useState(true);
   const [currentUserId, setCurrentUserId] = useState(null);
   const navigate = useNavigate();
-  const BACKEND_URL =  "https://kialumni-1.onrender.com";
+
+  const API_BASE = "https://kialumni-1.onrender.com";
 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
         const token = localStorage.getItem("token");
         if (!token) return;
-        const res = await axios.get(`${BACKEND_URL}/api/student/all-students`, {
+
+        const res = await axios.get(`${API_BASE}/api/student/all-students`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
         if (res.data.success && Array.isArray(res.data.students)) {
           const filtered = res.data.students.filter(
-            (s) => s.admissionyear?.toString() === admissionyear
+            (s) => String(s.admissionyear) === String(admissionyear)
           );
+
           const payload = JSON.parse(atob(token.split(".")[1]));
           setCurrentUserId(payload.id || payload._id || payload.userId);
           setStudents(filtered);
@@ -34,54 +37,50 @@ const FindStudent = () => {
         setLoading(false);
       }
     };
+
     fetchStudents();
   }, [admissionyear]);
 
-const handleRequest = async (to) => {
-  try {
-    const token = localStorage.getItem("token");
-    const res = await axios.post(
-      `${API_BASE}/api/alumni/send-request`, // or /api/student/send-request
-      { to },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-
-    alert(res.data.message); // success message
-
-  } catch (err) {
-    const msg = err.response?.data?.message || "Failed to send request";
-
-    if (msg === "Request already sent") {
-      // Ask user if they want to resend
-      const resend = window.confirm(
-        "You have already sent a request. Do you want to resend it?"
+  const handleRequest = async (to) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.post(
+        `${API_BASE}/api/student/send-request`,
+        { to },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-
-      if (resend) {
-        try {
-          // Resend request: delete old pending request first
-          await axios.post(
-            `${API_BASE}/api/alumni/resend-request`, // we’ll create this endpoint
-            { to },
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-          alert("✅ Request resent successfully!");
-        } catch (resendErr) {
-          alert(resendErr.response?.data?.message || "Failed to resend request");
+      alert(res.data.message);
+    } catch (err) {
+      const msg = err.response?.data?.message || "Failed to send request";
+      if (msg === "Request already sent") {
+        const resend = window.confirm(
+          "You have already sent a request. Do you want to resend it?"
+        );
+        if (resend) {
+          try {
+            await axios.post(
+              `${API_BASE}/api/student/resend-request`,
+              { to },
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+            alert("✅ Request resent successfully!");
+          } catch (resendErr) {
+            alert(
+              resendErr.response?.data?.message || "Failed to resend request"
+            );
+          }
         }
+      } else {
+        alert(msg);
       }
-    } else {
-      alert(msg);
     }
-  }
-};
-
+  };
 
   const handleDisconnect = async (targetUserId) => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.post(
-        `${BACKEND_URL}/api/student/disconnect`,
+        `${API_BASE}/api/student/disconnect`,
         { targetUserId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -90,7 +89,10 @@ const handleRequest = async (to) => {
         setStudents((prev) =>
           prev.map((s) =>
             s._id === targetUserId
-              ? { ...s, connections: s.connections.filter((id) => id !== currentUserId) }
+              ? {
+                  ...s,
+                  connections: s.connections.filter((id) => id !== currentUserId),
+                }
               : s
           )
         );
@@ -137,7 +139,7 @@ const handleRequest = async (to) => {
                     <tr key={s._id}>
                       <td>
                         <img
-                          src={`${BACKEND_URL}/${s.userimg || "uploads/default.jpg"}`}
+                          src={`${API_BASE}/${s.userimg || "uploads/default.jpg"}`}
                           alt={s.username}
                           className="profile-img"
                           onClick={() => navigate(`/profile/${s._id}`)}
