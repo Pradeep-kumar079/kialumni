@@ -9,7 +9,7 @@
 //     const acceptRequest = async () => {
 //       try {
 //         const token = window.location.pathname.split("/").pop();
-//         const base_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
+//         const base_url = process.env.REACT_APP_BACKEND_URL || "https://kialumni.vercel.app";
 
 //         const res = await axios.get(`${base_url}/api/student/accept-request/${token}`);
 //         if (res.data.success) {
@@ -33,7 +33,7 @@
 //         <div className="accept-card success">
 //           <h2>✅ Connection Accepted!</h2>
 //           <p>You and the sender are now connected.</p>
-//           <a href="http://localhost:3000" className="back-btn">
+//           <a href="https://kialumni.vercel.applhost:3000" className="back-btn">
 //             Go to Alumni Portal
 //           </a>
 //         </div>
@@ -43,7 +43,7 @@
 //         <div className="accept-card error">
 //           <h2>❌ Link Expired or Invalid</h2>
 //           <p>This connection request may have already been used or is invalid.</p>
-//           <a href="http://localhost:3000" className="back-btn">
+//           <a href="https://kialumni.vercel.applhost:3000" className="back-btn">
 //             Go Back
 //           </a>
 //         </div>

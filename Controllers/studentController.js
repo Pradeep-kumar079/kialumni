@@ -62,9 +62,9 @@ const sendRequestController = async (req, res) => {
 
     await newRequest.save();
 
-    const backendUrl =  "http://localhost:5000";
-    const acceptUrl = `http://localhost:5000/api/student/accept-request/${token}`;
-    const rejectUrl = `http://localhost:5000/api/student/reject-request/${token}`;
+    const backendUrl =  "https://kialumni.vercel.app";
+    const acceptUrl = `https://kialumni.vercel.app/api/student/accept-request/${token}`;
+    const rejectUrl = `https://kialumni.vercel.app/api/student/reject-request/${token}`;
 
     // ✉️ Send email
     const transporter = nodemailer.createTransport({

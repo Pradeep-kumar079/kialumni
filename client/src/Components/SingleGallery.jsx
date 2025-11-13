@@ -9,7 +9,7 @@ const SingleGallery = () => {
   const [galleryItem, setGalleryItem] = useState(null);
 
   // Deployed backend URL
- const base_url =  "http://localhost:5000";
+ const base_url =  "https://kialumni.vercel.app";
 
 
   useEffect(() => {

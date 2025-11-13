@@ -9,7 +9,7 @@ const FindStudent = () => {
   const [loading, setLoading] = useState(true);
   const [currentUserId, setCurrentUserId] = useState(null);
   const navigate = useNavigate();
-  const BACKEND_URL =  "http://localhost:5000";
+  const BACKEND_URL =  "https://kialumni.vercel.app";
 
   useEffect(() => {
     const fetchStudents = async () => {

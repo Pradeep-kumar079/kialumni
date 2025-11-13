@@ -3,7 +3,7 @@ import axios from "axios";
 import Navbar from "./Navbar";
 import "./Account.css";
 
-const BACKEND_URL =  "http://localhost:5000";
+const BACKEND_URL =  "https://kialumni.vercel.app";
 
 
 const Account = () => {

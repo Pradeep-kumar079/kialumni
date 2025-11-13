@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import "./Students.css";
 
-const BACKEND_URL =  "http://localhost:5000";
+const BACKEND_URL =  "https://kialumni.vercel.app";
 
 const Alumni = () => {
   const [batches, setBatches] = useState([]);

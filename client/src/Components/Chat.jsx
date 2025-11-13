@@ -4,7 +4,7 @@ import "./Chat.css";
 import { Edit, Trash2, X } from "lucide-react";
 import { socket } from "../socket"; // ✅ Import shared socket instance
 
-const BACKEND_URL = "http://localhost:5000";
+const BACKEND_URL = "https://kialumni.vercel.app";
 
 const Chat = ({ currentUserId, otherUserId }) => {
   const [messages, setMessages] = useState([]);

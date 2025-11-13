@@ -5,7 +5,7 @@ import axios from "axios";
 import "./ForgotPass.css";
 
 const ResetPass = () => {
-const BACKEND_URL = "http://localhost5000";
+const BACKEND_URL = "https://kialumni.vercel.applhost5000";
 
   const { token } = useParams();
   const navigate = useNavigate();

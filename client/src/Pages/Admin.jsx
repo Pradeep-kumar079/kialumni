@@ -37,7 +37,7 @@ const Admin = () => {
 
   // ✅ unified backend URL (works for local + production)
   // ✅ Automatically detect whether running locally or on Render
-const backend = "http://localhost:5000";
+const backend = "https://kialumni.vercel.app";
 
 
 

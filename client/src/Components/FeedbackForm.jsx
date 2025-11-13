@@ -8,7 +8,7 @@ const FeedbackForm = () => {
   const token = localStorage.getItem("token");
 
   // Automatically detect whether we're on localhost or deployed
-  const API_BASE =  "http://localhost:5000";
+  const API_BASE =  "https://kialumni.vercel.app";
 
 
   const handleSubmit = async (e) => {

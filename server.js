@@ -25,9 +25,7 @@ mongoose
 
 // ✅ CORS setup
 const allowedOrigins = [
-  "http://localhost:3000",
-  "https://kialumni.onrender.com",
-  "https://your-vercel-app.vercel.app" // <-- change this after deploying
+  "https://kialumni.vercel.app" // <-- change this after deploying
 ];
 app.use(
   cors({

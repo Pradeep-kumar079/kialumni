@@ -11,7 +11,7 @@ const SinglePost = () => {
   const [user, setUser] = useState(null);
 
   // 🌐 Backend base URL (Render deployment)
-const base_url =  "http://localhost:5000";
+const base_url =  "https://kialumni.vercel.app";
 
 
   // ✅ Set authorization header if logged in

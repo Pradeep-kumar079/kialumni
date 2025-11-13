@@ -4,7 +4,7 @@ const Request = require("../Models/RequestModel");
 const UserModel = require("../Models/UserModel");
 
 // ✅ Use localhost for local testing
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://kialumni.vercel.app";
 
 /* ------------------------------------------------------------------
    ✅ Send Connection Request
@@ -46,8 +46,8 @@ exports.sendRequestController = async (req, res) => {
       },
     });
 
-    const acceptLink = `http://localhost:5000/api/alumni/accept-request/${token}`;
-    const rejectLink = `http://localhost:5000/api/alumni/reject-request/${token}`;
+    const acceptLink = `https://kialumni.vercel.app/api/alumni/accept-request/${token}`;
+    const rejectLink = `https://kialumni.vercel.app/api/alumni/reject-request/${token}`;
 
     const mailOptions = {
       from: process.env.EMAIL_USER,

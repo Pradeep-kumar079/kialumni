@@ -6,7 +6,7 @@ import img from "../Assets/travel-back.jpg";
 
 const Login = () => {
   const navigate = useNavigate();
-  const BACKEND_URL = "http://localhost:5000";
+  const BACKEND_URL = "https://kialumni.vercel.app";
 
 
   const [formData, setFormData] = useState({
@@ -36,7 +36,7 @@ const Login = () => {
     try {
       // ✅ Correct backend URL
       const res = await axios.post(
-        `http://localhost:5000/api/user/login`,
+        `https://kialumni.vercel.app/api/user/login`,
         formData
       );
 
