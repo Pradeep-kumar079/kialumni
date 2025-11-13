@@ -11,7 +11,7 @@ const FindAlumni = () => {
   const [currentUserId, setCurrentUserId] = useState(null);
   const navigate = useNavigate();
 
-  const API_BASE =  "https://kialumni-1.onrender.com";
+  const API_BASE = "https://kialumni-1.onrender.com";
   const defaultImg = "uploads/default.jpg";
 
   useEffect(() => {
@@ -20,11 +20,9 @@ const FindAlumni = () => {
         const token = localStorage.getItem("token");
         if (!token) return;
 
-        // ✅ Decode token to get current user ID
         const payload = JSON.parse(atob(token.split(".")[1]));
         setCurrentUserId(payload.id || payload._id || payload.userId);
 
-        // ✅ Fetch all alumni batches
         const res = await axios.get(`${API_BASE}/api/alumni/all-alumni`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -32,22 +30,17 @@ const FindAlumni = () => {
         if (res.data.success) {
           let foundAlumni = [];
 
-          // ✅ Backend sends batches grouped by batchYear
           if (Array.isArray(res.data.batches)) {
-            // Try to find matching batch
             const selectedBatch = res.data.batches.find(
-              (b) =>
-                String(b.batchYear).trim() === String(batchYear).trim()
+              (b) => String(b.batchYear).trim() === String(batchYear).trim()
             );
-
             if (selectedBatch && Array.isArray(selectedBatch.alumni)) {
               foundAlumni = selectedBatch.alumni;
             }
           }
 
-          // ✅ If still empty, fallback — filter all alumni by admissionyear/batchYear
           if (foundAlumni.length === 0 && res.data.batches) {
-            const allAlumni = res.data.batches.flatMap(b => b.alumni);
+            const allAlumni = res.data.batches.flatMap((b) => b.alumni);
             foundAlumni = allAlumni.filter(
               (a) =>
                 String(a.batchYear).trim() === String(batchYear).trim() ||
@@ -67,51 +60,51 @@ const FindAlumni = () => {
     fetchAlumni();
   }, [batchYear]);
 
- const handleRequest = async (to) => {
-  try {
-    const token = localStorage.getItem("token");
-    const res = await axios.post(
-      `${API_BASE}/api/alumni/send-request`, // or /api/student/send-request
-      { to },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+  const handleRequest = async (to) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return alert("Please login first");
 
-    alert(res.data.message); // success message
-
-  } catch (err) {
-    const msg = err.response?.data?.message || "Failed to send request";
-
-    if (msg === "Request already sent") {
-      // Ask user if they want to resend
-      const resend = window.confirm(
-        "You have already sent a request. Do you want to resend it?"
+      const res = await axios.post(
+        `${API_BASE}/api/alumni/send-request`,
+        { to },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      if (resend) {
-        try {
-          // Resend request: delete old pending request first
-          await axios.post(
-            `${API_BASE}/api/alumni/resend-request`, // we’ll create this endpoint
-            { to },
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-          alert("✅ Request resent successfully!");
-        } catch (resendErr) {
-          alert(resendErr.response?.data?.message || "Failed to resend request");
-        }
-      }
-    } else {
-      alert(msg);
-    }
-  }
-};
+      alert(res.data.message);
+    } catch (err) {
+      const msg = err.response?.data?.message || "Failed to send request";
 
+      if (msg === "Request already sent") {
+        const resend = window.confirm(
+          "You have already sent a request. Do you want to resend it?"
+        );
+
+        if (resend) {
+          try {
+            const token = localStorage.getItem("token");
+            await axios.post(
+              `${API_BASE}/api/alumni/resend-request`,
+              { to },
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+            alert("✅ Request resent successfully!");
+          } catch (resendErr) {
+            alert(resendErr.response?.data?.message || "Failed to resend request");
+          }
+        }
+      } else {
+        alert(msg);
+      }
+    }
+  };
 
   const handleDisconnect = async (userId) => {
     try {
-    const token = localStorage.getItem("token"); // ✅ declare here
-    if (!token) return alert("Please login first");
-    await axios.post(
+      const token = localStorage.getItem("token");
+      if (!token) return alert("Please login first");
+
+      await axios.post(
         `${API_BASE}/api/alumni/disconnect`,
         { userId },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -124,11 +117,9 @@ const FindAlumni = () => {
   };
 
   if (loading) return <div className="loading">Loading...</div>;
-
   if (!alumniList.length)
     return <div className="no-batch">No alumni found for batch {batchYear}</div>;
 
-  // ✅ Group alumni by branch
   const groupedByBranch = alumniList.reduce((acc, a) => {
     if (!acc[a.branch]) acc[a.branch] = [];
     acc[a.branch].push(a);

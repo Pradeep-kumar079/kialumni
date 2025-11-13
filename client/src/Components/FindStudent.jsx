@@ -44,11 +44,14 @@ const FindStudent = () => {
   const handleRequest = async (to) => {
     try {
       const token = localStorage.getItem("token");
+      if (!token) return alert("Please login first");
+
       const res = await axios.post(
         `${API_BASE}/api/student/send-request`,
         { to },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+
       alert(res.data.message);
     } catch (err) {
       const msg = err.response?.data?.message || "Failed to send request";
@@ -58,6 +61,7 @@ const FindStudent = () => {
         );
         if (resend) {
           try {
+            const token = localStorage.getItem("token");
             await axios.post(
               `${API_BASE}/api/student/resend-request`,
               { to },
@@ -78,13 +82,15 @@ const FindStudent = () => {
 
   const handleDisconnect = async (targetUserId) => {
     try {
-      const token = localStorage.getItem("token"); // ✅ declare here
+      const token = localStorage.getItem("token");
       if (!token) return alert("Please login first");
+
       const res = await axios.post(
         `${API_BASE}/api/student/disconnect`,
         { targetUserId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+
       if (res.data.success) {
         alert("🔌 Disconnected successfully!");
         setStudents((prev) =>
