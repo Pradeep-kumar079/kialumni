@@ -5,7 +5,7 @@ import axios from "axios";
 const AcceptRequest = ({ refreshStudents }) => {
   const { token } = useParams();
   const navigate = useNavigate();
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
+  const BACKEND_URL =  "http://localhost:5000";
 
   useEffect(() => {
     const acceptConnection = async () => {

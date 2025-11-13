@@ -6,6 +6,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const path = require("path");
 
+// Models
 const ChatModel = require("./Models/ChatModel");
 const UserModel = require("./Models/UserModel");
 
@@ -18,18 +19,15 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // ✅ MongoDB connection
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-/* 
-  ✅ CORS setup:
-  - Needed ONLY in local dev.
-  - In production, both frontend and backend share the same domain.
-*/
+// ✅ CORS setup
 const allowedOrigins = [
-  "https://kialumni.onrender.com"
- // your netlify (optional if frontend not hosted separately)
+  "http://localhost:3000",
+  "https://kialumni.onrender.com",
+  "https://your-vercel-app.vercel.app" // <-- change this after deploying
 ];
 app.use(
   cors({
@@ -47,6 +45,7 @@ app.use(
   })
 );
 
+// ✅ Import Routes
 const UserRoutes = require("./Routes/UserRoutes");
 const AccountRoutes = require("./Routes/AccountRoutes");
 const StudentRoutes = require("./Routes/StudentRoutes");
@@ -56,7 +55,7 @@ const AdminRoutes = require("./Routes/AdminRoutes");
 const SearchRoutes = require("./Routes/SearchRoutes");
 const ForgotRoutes = require("./Routes/ForgotRoutes");
 
-// ✅ Routes
+// ✅ Use Routes
 app.use("/api/user", UserRoutes);
 app.use("/api/account", AccountRoutes);
 app.use("/api/student", StudentRoutes);
@@ -66,22 +65,18 @@ app.use("/api/admin", AdminRoutes);
 app.use("/api/search", SearchRoutes);
 app.use("/api/auth", ForgotRoutes);
 
-// ✅ Root route
+// ✅ Root test route
 app.get("/api", (req, res) => {
-  res.send("✅ KIT Alumni backend is running fine");
+  res.send("✅ KIT Alumni backend is running fine!");
 });
 
-/* 
-  ✅ Serve React build in production
-  (client/build folder will be created after running `npm run build` inside client/)
-*/
+// ✅ Serve React build for production
 const __dirname1 = path.resolve();
 app.use(express.static(path.join(__dirname1, "client", "build")));
 
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname1, "client", "build", "index.html"));
 });
-
 
 // ✅ Socket.io setup
 const server = http.createServer(app);
@@ -91,7 +86,6 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
     credentials: true,
   },
-  allowEIO3: true,
 });
 
 const onlineUsers = new Map();
@@ -150,6 +144,9 @@ io.on("connection", (socket) => {
   });
 });
 
-// ✅ Start server
+// ✅ Start server (local)
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+// ✅ Export app for Vercel
+module.exports = app;

@@ -6,7 +6,7 @@ import img from "../Assets/travel-back.jpg";
 
 const Login = () => {
   const navigate = useNavigate();
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
+  const BACKEND_URL = "http://localhost:5000";
 
 
   const [formData, setFormData] = useState({
@@ -36,7 +36,7 @@ const Login = () => {
     try {
       // ✅ Correct backend URL
       const res = await axios.post(
-        `${BACKEND_URL}/api/user/login`,
+        `http://localhost:5000/api/user/login`,
         formData
       );
 

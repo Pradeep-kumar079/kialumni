@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const ChatModel = require("../Models/ChatModel");
 const UserModel = require("../Models/UserModel");
 
@@ -88,8 +89,17 @@ const DeleteChatController = async (req, res) => {
   try {
     const { chatId, userId } = req.params;
 
+    // ✅ Check if valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(chatId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid chat ID format",
+      });
+    }
+
     const chat = await ChatModel.findById(chatId);
-    if (!chat) return res.status(404).json({ success: false, message: "Chat not found" });
+    if (!chat)
+      return res.status(404).json({ success: false, message: "Chat not found" });
 
     if (chat.sender.toString() !== userId)
       return res.status(403).json({ success: false, message: "Not allowed" });

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 
-const base_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
+const base_url =  "http://localhost:5000";
 
 // ✅ Use Render backend URL
 const socket = io(`${base_url}`, {

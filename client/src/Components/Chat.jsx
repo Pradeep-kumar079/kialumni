@@ -4,7 +4,7 @@ import "./Chat.css";
 import { Edit, Trash2, X } from "lucide-react";
 import { socket } from "../socket"; // ✅ Import shared socket instance
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
+const BACKEND_URL = "http://localhost:5000";
 
 const Chat = ({ currentUserId, otherUserId }) => {
   const [messages, setMessages] = useState([]);
@@ -122,9 +122,18 @@ const Chat = ({ currentUserId, otherUserId }) => {
   // ✅ Delete message
   const handleDelete = async () => {
     try {
+    // ✅ Validate ID before API call
+      if (!/^[0-9a-fA-F]{24}$/.test(selectedMsgId)) {
+        // Just remove from UI if it's a temporary unsaved message
+        setMessages((prev) => prev.filter((m) => m._id !== selectedMsgId));
+        setSelectedMsgId(null);
+        return;
+      }
+
       await axios.delete(`${BACKEND_URL}/api/chat/delete/${selectedMsgId}/${currentUserId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
+
       setMessages((prev) => prev.filter((m) => m._id !== selectedMsgId));
       socket.emit("delete-message", { chatId: selectedMsgId, userId: currentUserId });
       setSelectedMsgId(null);

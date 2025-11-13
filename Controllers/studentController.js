@@ -62,9 +62,9 @@ const sendRequestController = async (req, res) => {
 
     await newRequest.save();
 
-    const backendUrl = process.env.BACKEND_URL || "http://localhost:5000";
-    const acceptUrl = `${backendUrl}/api/student/accept-request/${token}`;
-    const rejectUrl = `${backendUrl}/api/student/reject-request/${token}`;
+    const backendUrl =  "http://localhost:5000";
+    const acceptUrl = `http://localhost:5000/api/student/accept-request/${token}`;
+    const rejectUrl = `http://localhost:5000/api/student/reject-request/${token}`;
 
     // ✉️ Send email
     const transporter = nodemailer.createTransport({
@@ -84,8 +84,8 @@ const sendRequestController = async (req, res) => {
           <h3>Hello ${receiver.username},</h3>
           <p>${sender.username} has sent you a connection request.</p>
           <p>Please click one of the options below:</p>
-          <a href="${acceptUrl}" style="padding:10px 15px;background:#4CAF50;color:white;text-decoration:none;margin-right:10px;">Accept</a>
-          <a href="${rejectUrl}" style="padding:10px 15px;background:#f44336;color:white;text-decoration:none;">Reject</a>
+          <a href="${acceptUrl}" style="padding:10px 15px;background:#4CAF50;color:white;text-decoration:none;cursor: pointer;margin-right:10px;">Accept</a>
+          <a href="${rejectUrl}" style="padding:10px 15px;background:#f44336;color:white;text-decoration:none;cursor: pointer;">Reject</a>
           <p>This link will expire in 24 hours.</p>
         </div>
       `,

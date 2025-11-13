@@ -9,7 +9,7 @@ const SingleGallery = () => {
   const [galleryItem, setGalleryItem] = useState(null);
 
   // Deployed backend URL
- const base_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
+ const base_url =  "http://localhost:5000";
 
 
   useEffect(() => {

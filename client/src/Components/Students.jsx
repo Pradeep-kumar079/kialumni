@@ -8,7 +8,7 @@ const Students = () => {
   const [batches, setBatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const base_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
+  const base_url =  "http://localhost:5000";
 
   useEffect(() => {
     const fetchStudentBatches = async () => {

@@ -6,8 +6,7 @@ import { FaGraduationCap, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 
 const Navbar = () => {
-  const BACKEND_URL =
-    process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
+  const BACKEND_URL = "http://localhost:5000";
 
   const navigate = useNavigate();
   const [query, setQuery] = useState("");

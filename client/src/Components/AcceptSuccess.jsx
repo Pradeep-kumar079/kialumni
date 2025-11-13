@@ -9,7 +9,7 @@ const AcceptRequest = () => {
     const acceptRequest = async () => {
       try {
         const token = window.location.pathname.split("/").pop();
-        const base_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
+        const base_url =  "http://localhost:5000";
 
         const res = await axios.get(`${base_url}/api/student/accept-request/${token}`);
         if (res.data.success) {

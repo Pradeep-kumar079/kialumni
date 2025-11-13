@@ -8,7 +8,7 @@ const Gallary = () => {
   const navigate = useNavigate();
 
   // ✅ Use your deployed backend URL
- const base_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
+ const base_url =  "http://localhost:5000";
 
 
   const fetchGallery = async () => {

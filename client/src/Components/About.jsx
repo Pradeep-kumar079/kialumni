@@ -11,6 +11,7 @@ const About = () => {
           Welcome to our platform! We aim to connect alumni and students to share
           experiences, opportunities, and knowledge. Our goal is to build a
           strong, supportive network for everyone.
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloribus est non, vero mollitia laudantium, temporibus excepturi natus ipsum quisquam voluptatum distinctio amet quaerat. Et quae nisi ex rerum eligendi nobis.lorem*2
         </p>
       </div>
     </>

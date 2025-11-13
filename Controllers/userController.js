@@ -37,7 +37,7 @@ const sendOtpController = async (req, res) => {
     );
 
     const transporter = nodemailer.createTransport({
-      service: "smtp-relay.brevo.com",
+      service: "gmail",
       auth: {
         user:  process.env.EMAIL_USER || "pradeepk9348@gmail.com",
         pass: process.env.EMAIL_PASS || "kycjndaberbichuz",
