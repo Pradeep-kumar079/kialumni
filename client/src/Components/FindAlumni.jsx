@@ -39,15 +39,6 @@ const FindAlumni = () => {
             }
           }
 
-          if (foundAlumni.length === 0 && res.data.batches) {
-            const allAlumni = res.data.batches.flatMap((b) => b.alumni);
-            foundAlumni = allAlumni.filter(
-              (a) =>
-                String(a.batchYear).trim() === String(batchYear).trim() ||
-                String(a.admissionyear).trim() === String(batchYear).trim()
-            );
-          }
-
           setAlumniList(foundAlumni);
         }
       } catch (err) {
@@ -60,14 +51,14 @@ const FindAlumni = () => {
     fetchAlumni();
   }, [batchYear]);
 
-  const handleRequest = async (to) => {
+  const handleRequest = async (receiverId) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) return alert("Please login first");
 
       const res = await axios.post(
         `${API_BASE}/api/alumni/send-request`,
-        { to },
+        { receiverId }, // 🔹 Fixed key to match backend
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -85,7 +76,7 @@ const FindAlumni = () => {
             const token = localStorage.getItem("token");
             await axios.post(
               `${API_BASE}/api/alumni/resend-request`,
-              { to },
+              { receiverId }, // 🔹 Fixed key
               { headers: { Authorization: `Bearer ${token}` } }
             );
             alert("✅ Request resent successfully!");

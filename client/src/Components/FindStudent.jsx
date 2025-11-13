@@ -41,14 +41,14 @@ const FindStudent = () => {
     fetchStudents();
   }, [admissionyear]);
 
-  const handleRequest = async (to) => {
+  const handleRequest = async (receiverId) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) return alert("Please login first");
 
       const res = await axios.post(
         `${API_BASE}/api/student/send-request`,
-        { to },
+        { receiverId }, // 🔹 Fixed key to match backend
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -64,14 +64,12 @@ const FindStudent = () => {
             const token = localStorage.getItem("token");
             await axios.post(
               `${API_BASE}/api/student/resend-request`,
-              { to },
+              { receiverId }, // 🔹 Fixed key
               { headers: { Authorization: `Bearer ${token}` } }
             );
             alert("✅ Request resent successfully!");
           } catch (resendErr) {
-            alert(
-              resendErr.response?.data?.message || "Failed to resend request"
-            );
+            alert(resendErr.response?.data?.message || "Failed to resend request");
           }
         }
       } else {
