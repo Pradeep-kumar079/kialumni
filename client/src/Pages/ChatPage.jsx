@@ -7,7 +7,7 @@ const ChatPage = () => {
   const [user, setUser] = useState(null);
 
   // ✅ Use Render backend (your actual URL)
-  const backend = "https://kialumni.vercel.app";
+  const backend = "https://kialumni-1.onrender.com";
 
   const fetchCurrentUser = async () => {
     try {

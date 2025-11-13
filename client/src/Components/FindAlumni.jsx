@@ -11,7 +11,7 @@ const FindAlumni = () => {
   const [currentUserId, setCurrentUserId] = useState(null);
   const navigate = useNavigate();
 
-  const API_BASE =  "https://kialumni.vercel.app";
+  const API_BASE =  "https://kialumni-1.onrender.com";
   const defaultImg = "uploads/default.jpg";
 
   useEffect(() => {

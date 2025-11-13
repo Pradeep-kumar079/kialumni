@@ -8,7 +8,7 @@ const Students = () => {
   const [batches, setBatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const base_url =  "https://kialumni.vercel.app";
+  const base_url =  "https://kialumni-1.onrender.com";
 
   useEffect(() => {
     const fetchStudentBatches = async () => {

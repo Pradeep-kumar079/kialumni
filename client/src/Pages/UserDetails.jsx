@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 import API from "../api";
 import "./UserDetails.css";
 
-const BACKEND_URL =  "https://kialumni.vercel.app";
+const BACKEND_URL =  "https://kialumni-1.onrender.com";
 const socket = io(BACKEND_URL, {
   transports: ["websocket"],
   withCredentials: true,

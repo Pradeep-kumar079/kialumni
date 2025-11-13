@@ -5,7 +5,7 @@ import axios from "axios";
 const AcceptRequest = ({ refreshStudents }) => {
   const { token } = useParams();
   const navigate = useNavigate();
-  const BACKEND_URL =  "https://kialumni.vercel.app";
+  const BACKEND_URL =  "https://kialumni-1.onrender.com";
 
   useEffect(() => {
     const acceptConnection = async () => {

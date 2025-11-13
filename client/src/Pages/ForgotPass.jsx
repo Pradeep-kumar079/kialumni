@@ -7,7 +7,7 @@ const ForgotPass = () => {
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
- const BACKEND_URL = "https://kialumni.vercel.app";
+ const BACKEND_URL = "https://kialumni-1.onrender.com";
 
 
   const handleSubmit = async (e) => {

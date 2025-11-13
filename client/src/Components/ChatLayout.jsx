@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 
-const base_url =  "https://kialumni.vercel.app";
+const base_url =  "https://kialumni-1.onrender.com";
 
 // ✅ Use Render backend URL
 const socket = io(`${base_url}`, {

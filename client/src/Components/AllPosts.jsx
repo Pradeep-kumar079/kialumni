@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./AllPosts.css";
 
-const BACKEND_URL =  "https://kialumni.vercel.app";
+const BACKEND_URL =  "https://kialumni-1.onrender.com";
 
 const AllPosts = () => {
   // ✅ Universal image rendering helper

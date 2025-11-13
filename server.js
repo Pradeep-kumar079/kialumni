@@ -26,7 +26,7 @@ mongoose
 // ✅ CORS setup
 app.use(
   cors({
-    origin: "*", // allow all origins for single Render service
+    origin: "https://kialumni-1.onrender.com", // allow all origins for single Render service
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,

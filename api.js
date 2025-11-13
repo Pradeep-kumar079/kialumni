@@ -2,7 +2,7 @@
 import axios from "axios";
 
 // ✅ Your correct Render backend URL
-const backendUrl = "https://kialumni.vercel.app";
+const backendUrl = "https://kialumni-1.onrender.com";
 
 const api = axios.create({
   baseURL: `${backendUrl}/api`, // All API routes prefixed with /api

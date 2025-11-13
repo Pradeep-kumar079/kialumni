@@ -8,7 +8,7 @@ const Gallary = () => {
   const navigate = useNavigate();
 
   // ✅ Use your deployed backend URL
- const base_url =  "https://kialumni.vercel.app";
+ const base_url =  "https://kialumni-1.onrender.com";
 
 
   const fetchGallery = async () => {

@@ -14,7 +14,7 @@ const Profile = () => {
   const [currentUserId, setCurrentUserId] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
   const [isRequestSent, setIsRequestSent] = useState(false);
-  const base_url =  "https://kialumni.vercel.app";
+  const base_url =  "https://kialumni-1.onrender.com";
 
   useEffect(() => {
     const fetchProfile = async () => {
