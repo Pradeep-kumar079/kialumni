@@ -4,10 +4,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "server": "nodemon server.js",
-    "client": "npm start --prefix client",
-    "build": "cd client && npm install && npm run build",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "build": "cd client && npm install && npm run build"
   },
   "dependencies": {
     "axios": "^1.12.2",
@@ -25,10 +22,6 @@
     "sib-api-v3-sdk": "^8.5.0",
     "socket.io": "^4.8.1",
     "path": "^0.12.7"
-  },
-  "devDependencies": {
-    "concurrently": "^8.2.2",
-    "nodemon": "^3.1.10"
   },
   "engines": {
     "node": "22.x"

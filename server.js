@@ -24,19 +24,9 @@ mongoose
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 // ✅ CORS setup
-const allowedOrigins = [
-  "https://kialumni.vercel.app" // <-- your deployed frontend
-];
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        console.warn("❌ Blocked by CORS:", origin);
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: "*", // allow all origins for single Render service
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -68,19 +58,17 @@ app.get("/api", (req, res) => {
   res.send("✅ KIT Alumni backend is running fine!");
 });
 
-// ✅ Serve React build for production
-const __dirname1 = path.resolve();
-app.use(express.static(path.join(__dirname1, "client", "build")));
-
+// ✅ Serve React frontend
+app.use(express.static(path.join(__dirname, "client/build")));
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname1, "client", "build", "index.html"));
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
 
 // ✅ Socket.io setup
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: allowedOrigins,
+    origin: "*",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -142,11 +130,6 @@ io.on("connection", (socket) => {
   });
 });
 
-// ✅ Local vs Vercel handling
-if (process.env.NODE_ENV !== "production") {
-  const PORT = process.env.PORT || 5000;
-  server.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-}
-
-// ✅ Export server for Vercel
-module.exports = server;
+// ✅ Start server
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
