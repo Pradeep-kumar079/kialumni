@@ -26,7 +26,7 @@ mongoose
 // ✅ CORS setup
 app.use(
   cors({
-    origin: "https://kialumni-1.onrender.com", // allow all origins for single Render service
+    origin: "https://kialumni-1.onrender.com",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -60,13 +60,10 @@ app.get("/api", (req, res) => {
 
 // ✅ Serve React frontend
 app.use(express.static(path.join(__dirname, "client/build")));
-// Serve React frontend for all GET requests not starting with /api
 app.use((req, res, next) => {
   if (req.method === "GET" && !req.path.startsWith("/api")) {
     res.sendFile(path.join(__dirname, "client/build", "index.html"));
-  } else {
-    next();
-  }
+  } else next();
 });
 
 // ✅ Socket.io setup
@@ -82,59 +79,30 @@ const io = new Server(server, {
 const onlineUsers = new Map();
 
 io.on("connection", (socket) => {
-  console.log("⚡ User connected:", socket.id);
+  console.log("🔌 New socket connected:", socket.id);
 
-  socket.on("user-online", async (userId) => {
-    if (!userId) return;
+  socket.on("addUser", (userId) => {
     onlineUsers.set(userId, socket.id);
-    try {
-      await UserModel.findByIdAndUpdate(userId, { isOnline: true });
-      io.emit("userStatusUpdate", { userId, isOnline: true });
-    } catch (err) {
-      console.error("Error updating online status:", err);
-    }
+    io.emit("getUsers", Array.from(onlineUsers.keys()));
   });
 
-  socket.on("send-message", async ({ fromUserId, toUserId, message }) => {
-    try {
-      const newChat = await ChatModel.create({
-        sender: fromUserId,
-        receiver: toUserId,
-        message,
-      });
+  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+    const receiverSocket = onlineUsers.get(receiverId);
+    const message = { senderId, receiverId, text, createdAt: new Date() };
+    const newMessage = new ChatModel(message);
+    newMessage.save();
 
-      const receiverSocket = onlineUsers.get(toUserId);
-      if (receiverSocket) {
-        io.to(receiverSocket).emit("receive-message", { chat: newChat });
-      }
-
-      socket.emit("message-sent", { chat: newChat });
-    } catch (err) {
-      console.error("Message error:", err);
-    }
+    if (receiverSocket) io.to(receiverSocket).emit("getMessage", message);
   });
 
-  socket.on("disconnect", async () => {
-    let disconnectedUserId = null;
-    for (let [userId, sockId] of onlineUsers.entries()) {
-      if (sockId === socket.id) {
-        disconnectedUserId = userId;
-        onlineUsers.delete(userId);
-        break;
-      }
-    }
-
-    if (disconnectedUserId) {
-      try {
-        await UserModel.findByIdAndUpdate(disconnectedUserId, { isOnline: false });
-        io.emit("userStatusUpdate", { userId: disconnectedUserId, isOnline: false });
-      } catch (err) {
-        console.error("Error updating offline status:", err);
-      }
-    }
+  socket.on("disconnect", () => {
+    console.log("🔌 Socket disconnected:", socket.id);
+    onlineUsers.forEach((value, key) => {
+      if (value === socket.id) onlineUsers.delete(key);
+    });
+    io.emit("getUsers", Array.from(onlineUsers.keys()));
   });
 });
 
-// ✅ Start server
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
