@@ -20,6 +20,7 @@
     "nodemailer": "^7.0.10",
     "nodemailer-brevo-transport": "^2.2.1",
     "path": "^0.12.7",
+    "resend": "^6.4.2",
     "sib-api-v3-sdk": "^8.5.0",
     "socket.io": "^4.8.1"
   },

@@ -1,33 +1,33 @@
 const User = require("../Models/UserModel");
 const crypto = require("crypto");
-const nodemailer = require("nodemailer");
 const bcrypt = require("bcryptjs");
+const { Resend } = require("resend");
 
-// ✅ Send Reset Link
+// Initialize Resend
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+// ===============================================
+// ✅ Send Reset Link (Using Resend instead of Nodemailer)
+// ===============================================
 exports.forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
+
     const user = await User.findOne({ email });
     if (!user)
       return res.status(404).json({ success: false, message: "User not found" });
 
+    // Create token
     const resetToken = crypto.randomBytes(20).toString("hex");
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
     user.resetPasswordToken = resetToken;
-    user.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 mins
+    user.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 min
     await user.save();
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    const mailOptions = {
-      from: `"Alumni Support" <${process.env.EMAIL_USER}>`,
+    // Send email with Resend
+    await resend.emails.send({
+      from: "Alumni Support <onboarding@resend.dev>",
       to: email,
       subject: "Password Reset Request",
       html: `
@@ -40,17 +40,20 @@ exports.forgotPassword = async (req, res) => {
         </a>
         <p>If you didn’t request this, please ignore this email.</p>
       `,
-    };
+    });
 
-    await transporter.sendMail(mailOptions);
     res.json({ success: true, message: "Reset link sent to email!" });
+
   } catch (error) {
     console.error("Forgot Password Error:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
-// ✅ Reset Password
+
+// ===============================================
+// ✅ Reset Password (No Changes Needed)
+// ===============================================
 exports.resetPassword = async (req, res) => {
   try {
     const { token } = req.params;
@@ -70,6 +73,7 @@ exports.resetPassword = async (req, res) => {
     await user.save();
 
     res.json({ success: true, message: "Password reset successfully!" });
+
   } catch (error) {
     console.error("Reset Password Error:", error);
     res.status(500).json({ success: false, message: error.message });
