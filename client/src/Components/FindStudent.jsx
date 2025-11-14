@@ -41,42 +41,84 @@ const FindStudent = () => {
     fetchStudents();
   }, [admissionyear]);
 
-  const handleRequest = async (receiverId) => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) return alert("Please login first");
+  // const handleRequest = async (receiverId) => {
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     if (!token) return alert("Please login first");
 
-      const res = await axios.post(
-        `${API_BASE}/api/student/send-request`,
-        { receiverId }, // 🔹 Fixed key to match backend
-        { headers: { Authorization: `Bearer ${token}` } }
+  //     const res = await axios.post(
+  //       `${API_BASE}/api/student/send-request`,
+  //       { receiverId }, // 🔹 Fixed key to match backend
+  //       { headers: { Authorization: `Bearer ${token}` } }
+  //     );
+
+  //     alert(res.data.message);
+  //   } catch (err) {
+  //     const msg = err.response?.data?.message || "Failed to send request";
+  //     if (msg === "Request already sent") {
+  //       const resend = window.confirm(
+  //         "You have already sent a request. Do you want to resend it?"
+  //       );
+  //       if (resend) {
+  //         try {
+  //           const token = localStorage.getItem("token");
+  //           await axios.post(
+  //             `${API_BASE}/api/student/resend-request`,
+  //             { receiverId }, // 🔹 Fixed key
+  //             { headers: { Authorization: `Bearer ${token}` } }
+  //           );
+  //           alert("✅ Request resent successfully!");
+  //         } catch (resendErr) {
+  //           alert(resendErr.response?.data?.message || "Failed to resend request");
+  //         }
+  //       }
+  //     } else {
+  //       alert(msg);
+  //     }
+  //   }
+  // };
+const handleRequest = async (receiverId) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return alert("Please login first");
+
+    // ✅ Send initial request
+    const res = await axios.post(
+      `${API_BASE}/api/student/send-request`,
+      { receiverId }, // matches backend for send-request
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    alert(res.data.message);
+  } catch (err) {
+    const msg = err.response?.data?.message || "Failed to send request";
+
+    if (msg === "Request already sent") {
+      const resend = window.confirm(
+        "You have already sent a request. Do you want to resend it?"
       );
 
-      alert(res.data.message);
-    } catch (err) {
-      const msg = err.response?.data?.message || "Failed to send request";
-      if (msg === "Request already sent") {
-        const resend = window.confirm(
-          "You have already sent a request. Do you want to resend it?"
-        );
-        if (resend) {
-          try {
-            const token = localStorage.getItem("token");
-            await axios.post(
-              `${API_BASE}/api/student/resend-request`,
-              { receiverId }, // 🔹 Fixed key
-              { headers: { Authorization: `Bearer ${token}` } }
-            );
-            alert("✅ Request resent successfully!");
-          } catch (resendErr) {
-            alert(resendErr.response?.data?.message || "Failed to resend request");
-          }
+      if (resend) {
+        try {
+          const token = localStorage.getItem("token");
+
+          // ✅ Correct key for resend-request
+          await axios.post(
+            `${API_BASE}/api/student/resend-request`,
+            { to: receiverId }, // key must be "to" to match backend
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+
+          alert("✅ Request resent successfully!");
+        } catch (resendErr) {
+          alert(resendErr.response?.data?.message || "Failed to resend request");
         }
-      } else {
-        alert(msg);
       }
+    } else {
+      alert(msg);
     }
-  };
+  }
+};
 
   const handleDisconnect = async (targetUserId) => {
     try {
