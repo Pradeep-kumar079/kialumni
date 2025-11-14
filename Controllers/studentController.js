@@ -1,9 +1,12 @@
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const crypto = require("crypto"); // ✅ Added crypto
 const UserModel = require("../Models/UserModel");
 const RequestModel = require("../Models/RequestModel");
 dotenv.config();
+
+const BASE_URL = "https://kialumni-1.onrender.com"; // ✅ Base URL
 
 // ✅ Get all students
 const GetStudentBatchController = async (req, res) => {
@@ -20,7 +23,6 @@ const GetStudentBatchController = async (req, res) => {
 const sendRequestController = async (req, res) => {
   try {
     const { receiverId } = req.body;
-    console.log("Receiver ID:", receiverId);
     const senderId = req.user._id;
 
     if (!receiverId)
@@ -38,7 +40,6 @@ const sendRequestController = async (req, res) => {
     if (sender.connections.includes(receiver._id))
       return res.status(400).json({ success: false, message: "Already connected" });
 
-    // 🔍 Check if a pending request already exists
     const existingRequest = await RequestModel.findOne({
       from: senderId,
       to: receiverId,
@@ -48,33 +49,19 @@ const sendRequestController = async (req, res) => {
     if (existingRequest)
       return res.status(400).json({ success: false, message: "Request already sent" });
 
-    // 🔑 Create token & save request
-    const token = jwt.sign({ senderId, receiverId }, process.env.JWT_SECRET, {
-      expiresIn: "24h",
-    });
+    const token = jwt.sign({ senderId, receiverId }, process.env.JWT_SECRET, { expiresIn: "24h" });
 
-    const newRequest = new RequestModel({
-      from: senderId,
-      to: receiverId,
-      token,
-      status: "pending",
-    });
-
+    const newRequest = new RequestModel({ from: senderId, to: receiverId, token, status: "pending" });
     await newRequest.save();
 
-    const backendUrl =  "https://kialumni-1.onrender.com";
-    const acceptUrl = `https://kialumni-1.onrender.com/api/student/accept-request/${token}`;
-    const rejectUrl = `https://kialumni-1.onrender.com/api/student/reject-request/${token}`;
+    const acceptUrl = `${BASE_URL}/api/student/accept-request/${token}`;
+    const rejectUrl = `${BASE_URL}/api/student/reject-request/${token}`;
 
-    // ✉️ Send email
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 465,
       secure: true,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
+      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
     });
 
     await transporter.sendMail({
@@ -86,8 +73,8 @@ const sendRequestController = async (req, res) => {
           <h3>Hello ${receiver.username},</h3>
           <p>${sender.username} has sent you a connection request.</p>
           <p>Please click one of the options below:</p>
-          <a href="${acceptUrl}" style="padding:10px 15px;background:#4CAF50;color:white;text-decoration:none;cursor: pointer;margin-right:10px;">Accept</a>
-          <a href="${rejectUrl}" style="padding:10px 15px;background:#f44336;color:white;text-decoration:none;cursor: pointer;">Reject</a>
+          <a href="${acceptUrl}" style="padding:10px 15px;background:#4CAF50;color:white;text-decoration:none;margin-right:10px;">Accept</a>
+          <a href="${rejectUrl}" style="padding:10px 15px;background:#f44336;color:white;text-decoration:none;">Reject</a>
           <p>This link will expire in 24 hours.</p>
         </div>
       `,
@@ -122,7 +109,6 @@ const acceptRequestController = async (req, res) => {
     await sender.save();
     await receiver.save();
 
-    // ✅ Update request status
     request.status = "connected";
     await request.save();
 
@@ -144,15 +130,13 @@ const rejectRequestController = async (req, res) => {
     const { token } = req.params;
     const request = await RequestModel.findOne({ token });
 
-    if (!request)
-      return res.status(400).send("Invalid or expired link.");
+    if (!request) return res.status(400).send("Invalid or expired link.");
 
     request.status = "rejected";
     await request.save();
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const { senderId } = decoded;
-    const sender = await UserModel.findById(senderId);
+    const sender = await UserModel.findById(decoded.senderId);
 
     res.send(`
       <html><body style="text-align:center;font-family:sans-serif;margin-top:100px;">
@@ -166,7 +150,7 @@ const rejectRequestController = async (req, res) => {
   }
 };
 
-// ✅ Disconnect controller
+// ✅ Disconnect
 const disconnectController = async (req, res) => {
   try {
     const { targetUserId } = req.body;
@@ -193,16 +177,14 @@ const disconnectController = async (req, res) => {
   }
 };
 
-
+// ✅ Resend connection request
 const resendRequestController = async (req, res) => {
   try {
     const { to } = req.body;
     const from = req.user._id;
 
-    // 🔹 Delete existing pending request if exists
     await RequestModel.deleteMany({ from, to, status: "pending" });
 
-    // 🔹 Create new request
     const token = crypto.randomBytes(20).toString("hex");
     const newRequest = new RequestModel({ from, to, token, status: "pending" });
     await newRequest.save();
@@ -210,16 +192,15 @@ const resendRequestController = async (req, res) => {
     const receiver = await UserModel.findById(to);
     const sender = await UserModel.findById(from);
 
-    // 🔹 Send email again
+    const acceptLink = `${BASE_URL}/api/student/accept-request/${token}`;
+    const rejectLink = `${BASE_URL}/api/student/reject-request/${token}`;
+
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 465,
       secure: true,
       auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
     });
-
-    const acceptLink = `${BASE_URL}/api/alumni/accept-request/${token}`;
-    const rejectLink = `${BASE_URL}/api/alumni/reject-request/${token}`;
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
