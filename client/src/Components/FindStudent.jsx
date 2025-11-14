@@ -53,7 +53,7 @@ const FindStudent = () => {
 
     try {
       const res = await axios.post(
-        `${API_BASE}/api/student/send-request`,
+        `https://kialumni-1.onrender.com/api/student/send-request`,
         { receiverId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -89,7 +89,7 @@ const FindStudent = () => {
 
     try {
       const res = await axios.post(
-        `${API_BASE}/api/student/disconnect`,
+        `https://kialumni-1.onrender.com/api/student/disconnect`,
         { targetUserId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
