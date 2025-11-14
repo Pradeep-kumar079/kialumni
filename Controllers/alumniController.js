@@ -264,9 +264,10 @@ const sendRequestController = async (req, res) => {
     const rejectUrl = `${BASE_URL}/api/alumni/reject-request/${token}`;
 
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
+      service: "gmail",
+      // host: "smtp.gmail.com",
+      // port: 465,
+      // secure: true,
       auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
     });
 
@@ -379,9 +380,10 @@ const resendRequestController = async (req, res) => {
     const rejectLink = `${BASE_URL}/api/alumni/reject-request/${token}`;
 
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
+      service: "gmail",
+      // host: "smtp.gmail.com",
+      // port: 465,
+      // secure: true,
       auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
     });
 
